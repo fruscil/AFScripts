@@ -1,0 +1,26 @@
+--<ScriptOptions statementTerminator="@"/>
+
+
+CREATE PROCEDURE         "EMOC3"."GETUSERHTML" (
+USERIDIN  USERS.USERID%TYPE,
+USERHTML OUT   CLOB
+)
+AS
+BEGIN
+
+   SELECT USERHOMEHTML
+   INTO USERHTML
+   FROM USERS
+   WHERE USERID = USERIDIN;
+
+END GETUSERHTML;
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+@

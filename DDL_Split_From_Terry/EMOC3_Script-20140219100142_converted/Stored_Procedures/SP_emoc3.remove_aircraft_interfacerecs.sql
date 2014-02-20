@@ -1,0 +1,45 @@
+--<ScriptOptions statementTerminator="@"/>
+
+
+CREATE PROCEDURE         "EMOC3"."REMOVE_AIRCRAFT_INTERFACERECS" (
+AIRCRAFTIDIN WRITEUPS.AIRCRAFTID%TYPE
+)
+AS
+
+BEGIN
+  INSERT INTO EMOCAUX.INTERFACELOG
+  SELECT INTERFACELOGID,
+    INTERFACECONTROLID,
+   TRANSACTIONTYPE,
+   TIMEOFINSERT,
+   EXPIRATION,
+   CAMSVALIDATED,
+   CANCELFLAG,
+   USERID,
+   null,
+   null,
+   AIRCRAFTID,
+   null,
+   null,
+   null,
+   XMLIN,
+   XMLOUT,
+   null,
+   PARSED,
+   sysdate as archivedate
+  FROM INTERFACELOG
+  WHERE AIRCRAFTID = AIRCRAFTIDIN;
+
+  delete from interfacelog where aircraftid = aircraftidin;
+
+
+END REMOVE_AIRCRAFT_INTERFACERECS;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+@

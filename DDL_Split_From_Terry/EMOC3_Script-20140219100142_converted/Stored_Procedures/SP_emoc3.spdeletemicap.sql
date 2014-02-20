@@ -1,0 +1,25 @@
+--<ScriptOptions statementTerminator="@"/>
+
+
+CREATE PROCEDURE         "EMOC3"."SPDELETEMICAP" (
+
+MICAPIDIN MICAP.MICAPID%TYPE
+)
+AS
+BEGIN
+
+DELETE FROM MICAP
+
+WHERE (  (MICAPID = MICAPIDIN)	);
+
+END SPDELETEMICAP;
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+@

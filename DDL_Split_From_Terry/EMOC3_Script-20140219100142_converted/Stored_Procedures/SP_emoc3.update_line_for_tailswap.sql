@@ -1,0 +1,234 @@
+--<ScriptOptions statementTerminator="@"/>
+
+
+/*DCW-ERROR GRAMMAR:"An unrecognizable item was found
+
+------------
+Error Header
+	Source Name: /E:/mitre/project/aflcmc/EMOC/Migration/EMOC3_Script.sql
+	Total Line Number: 43327
+	Relative Current Chunk Line Number: 43327
+	Column Number: 0
+------------
+ 
+-------------
+Error Message
+	Message: no viable alternative at character '    END;\n  END IF;\nEND Update_Line_For_Tailswap;\n\n[CREATE]'
+------------
+
+The following statement (from line 43111 to 43325) and was skipped" BEGIN*/
+ CREATE PROCEDURE         "EMOC3"."UPDATE_LINE_FOR_TAILSWAP"
+  (
+    SCHEDULEIDIN SCHEDULE.SCHEDULEID%TYPE,
+    AIRCRAFTIDIN SCHEDULE.AIRCRAFTID%TYPE,
+    NEWAIRCRAFTIDIN SCHEDULE.AIRCRAFTID%TYPE,
+    SCHEDULEREMARKSIN REMARKS.REMARKS%TYPE,
+    DEVIATIONCODEIDIN SCHEDULE.DEVIATIONCODEID%TYPE,
+    CAUSECODEIDIN SCHEDULE.CAUSECODEID%TYPE,
+    UNDOIN VARCHAR2 )
+  /******************************************************************************
+  NAME:       UPDATE_LINE_FOR_TAILSWAP
+  PURPOSE:    Updates a schedule line.
+  REVISIONS:
+  Ver        Date        Author           Description
+  ---------  ----------  ---------------  ------------------------------------
+  1.0        8/6/03      A.Mitchell       1. Created this procedure.
+  1.1        2/27/04     A.Mitchell       2. Updated remarks handling
+  1.2        3/11/04     A.Mitchell       3. Uncommented DELETE_SORTIE call + added UNDO
+  2.0        7/16/2012   J.Long           4. QC 363/499/521 - Undo TS issues
+  2.1		 8/20/2013	 J.Long			  5. QC 335 REOPENED in v4.1 (Fixed Enclosed)
+  PARAMETERS:
+  INPUT:
+  *SCHEDULEID,
+  *AIRCRAFTID,
+  *NEWAIRCRAFTID
+  *SCHEDULEREMARKS
+  *DEVIATIONCODEID
+  *CAUSECODEID
+  OUTPUT:
+  RETURNED VALUE:
+  CALLED BY:
+  CALLS:
+  EXAMPLE USE:
+  ASSUMPTIONS:
+  LIMITATIONS:
+  ALGORITHM:
+  NOTES:
+  ******************************************************************************/
+AS
+  REMARKSIDIN      NUMBER;
+  NEXTSCHEDULEID   NUMBER;
+  PLACEHOLDER      NUMBER;
+  ERROR_DEV        NUMBER;
+  ERROR_CAUSE      NUMBER;
+  ERROR_SQ         NUMBER;
+  ERROR_SORTIEDATE CHAR(7);
+  ERROR_SORTIENUM  NUMBER;
+  SWAP             NUMBER;
+  UPDREMARK        NUMBER;
+  NEWREMARK        NUMBER;
+  ERROR_AIRCRAFT   NUMBER;
+  STATUSCODEVAR    NUMBER;
+BEGIN
+  --INCREMENT
+  --GET REMARK, IF ONE EXISTS
+  SELECT SCHEDULEREMARKS
+  INTO REMARKSIDIN
+  FROM SCHEDULE
+  WHERE SCHEDULEID              = SCHEDULEIDIN;
+  IF (LENGTH(SCHEDULEREMARKSIN) > 0 OR SCHEDULEREMARKSIN IS NOT NULL) AND UNDOIN IS NULL THEN
+    BEGIN
+      IF (REMARKSIDIN IS NOT NULL)THEN
+        UPDATE REMARKS
+        SET REMARKS     = SCHEDULEREMARKSIN,
+          REMARKSDATE   = SYSDATE
+        WHERE REMARKSID = REMARKSIDIN;
+      ELSE
+        SELECT SEQ_REMARKS.NEXTVAL INTO REMARKSIDIN FROM DUAL;
+
+        Add_Remarks (REMARKSIDIN, SCHEDULEREMARKSIN);
+        UPDATE SCHEDULE
+        SET SCHEDULEREMARKS = REMARKSIDIN
+        WHERE SCHEDULEID    = SCHEDULEIDIN;
+      END IF;
+    END;
+    --ELSE
+    -- BEGIN
+    --IF REMARKSIDIN IS NOT NULL THEN
+    --  BEGIN
+    --  UPDATE SCHEDULE SET SCHEDULEREMARKS = NULL WHERE SCHEDULEID = SCHEDULEIDIN;
+    --     DELETE REMARKS WHERE REMARKSID = REMARKSIDIN;
+    --    END;
+    --END IF;
+    -- END;
+  END IF;
+  IF UNDOIN = 'U' THEN
+    BEGIN
+      --GET THESE TO RESET DEV+CAUSE CODES ON ORIGINAL RECORD
+      SELECT DEVIATIONCODEID,
+        CAUSECODEID,
+        SQUADRONID,
+        SORTIEDATE,
+        SORTIENUM,
+        SWAPPEDLINE,
+        AIRCRAFTID
+      INTO ERROR_DEV,
+        ERROR_CAUSE,
+        ERROR_SQ,
+        ERROR_SORTIEDATE,
+        ERROR_SORTIENUM,
+        SWAP,
+        ERROR_AIRCRAFT
+      FROM SCHEDULE
+      WHERE SCHEDULEID = SCHEDULEIDIN;
+      SELECT SCHEDULEREMARKS INTO UPDREMARK FROM SCHEDULE WHERE SCHEDULEID = SWAP;
+      IF (UPDREMARK IS NULL AND (LENGTH(SCHEDULEREMARKSIN) > 0 OR SCHEDULEREMARKSIN IS NOT NULL)) THEN
+        BEGIN
+          SELECT SEQ_REMARKS.NEXTVAL INTO NEWREMARK FROM DUAL;
+
+          Add_Remarks (NEWREMARK, SCHEDULEREMARKSIN);
+          UPDATE SCHEDULE
+          SET SCHEDULEREMARKS = NEWREMARK
+          WHERE SCHEDULEID    = SCHEDULEIDIN;
+        END;
+      ELSE
+        BEGIN
+          UPDATE SCHEDULE SET SCHEDULEREMARKS = UPDREMARK WHERE SCHEDULEID = SWAP;
+          --UPDATE REMARKS
+          --SET REMARKS = SCHEDULEREMARKSIN
+          --WHERE REMARKSID = UPDREMARK;
+        END;
+      END IF;
+      UPDATE SCHEDULE
+      SET DEVIATIONCODEID = ERROR_DEV,
+        CAUSECODEID       = ERROR_CAUSE
+      WHERE SQUADRONID    = ERROR_SQ
+      AND SORTIEDATE      = ERROR_SORTIEDATE
+      AND SORTIENUM       = ERROR_SORTIENUM
+      AND SCHEDULEID      = SWAP;
+      --1/28/05 To satisfy OnTime FeatureId #99
+      --(When doing a Maintenance Interchange using a Spare
+      --the Crew Ready information is not being carried forward to the line it is being placed in)
+      DELETE SCHEDULESTATUS
+      WHERE SCHEDULEID = SCHEDULEIDIN;
+      --8/27/2012 Find Default Statusboard Icon for Aircraft
+      SELECT SC.STATUSCODEID
+      INTO STATUSCODEVAR
+      FROM STATUSCODE SC
+      JOIN AIRCRAFT AC
+      ON SC.MOCID              = AC.MOCID
+      WHERE AC.AIRCRAFTID      = ERROR_AIRCRAFT
+      AND SC.DEFAULTSTATUSCODE = 1;
+      --8/27/2012 Set Default Statusboard Icon for Aircraft
+      UPDATE AIRCRAFT
+      SET STATUSCODEID = STATUSCODEVAR
+      WHERE AIRCRAFTID = ERROR_AIRCRAFT;
+	  --8/20/2013 Set Aircraft PRESELECT to NULL
+	  UPDATE AIRCRAFT
+	  SET SQPRESELECT = NULL
+	  WHERE AIRCRAFTID =
+		(SELECT AIRCRAFTID FROM SCHEDULE WHERE SCHEDULEID = SWAP
+		);
+      --DELETE THE SWAPPED RECORD
+      Delete_Sortie_Line(SCHEDULEIDIN, PLACEHOLDER); --3/11/04
+    END;
+  ELSE
+    BEGIN
+      SELECT SEQ_SCHEDULE.NEXTVAL INTO NEXTSCHEDULEID FROM DUAL;
+      INSERT INTO SCHEDULE
+      SELECT NEXTSCHEDULEID SCHEDULEID,
+        GO,
+        SCHEDULEDTAKEOFF,
+        SCHEDULEDLANDING,
+        ACTUALTAKEOFF,
+        ACTUALLANDING,
+        SPARE,
+        ADJTAKEOFF,
+        ADJLANDING,
+        AREAARRIVETIME,
+        AREALEAVETIME,
+        LANDINGCODEID,
+        RANGEID,
+        DEVIATIONCODEID,
+        CAUSECODEID,
+        WXCODEID,
+        MISSIONID,
+        AREAID,
+        AIRCRAFTID,
+        PILOTID,
+        SORTIENUM,
+        SORTIEMOD,
+        SORTIEDATE,
+        BLOCKNUMBER,
+        PUBLISHED_FLAG,
+        SCHEDDAY,
+        CALLSIGN,
+        TRANSIENT,
+        DURATIONSCHEDULED,
+        DURATIONACTUAL,
+        CONFIGCODE,
+        NULL,
+        NULL, --NULL replaced schedule and Maintenance remarks
+        SORTIE_JOAP,
+        SORTIE_SEMEDX,
+        SQUADRONID,
+        UTILCODEID,
+        CAMSINIT,
+        SCHEDULESOURCE,
+        INTERFACELOGID,
+        TYPE_EVENT,
+        SWAPPEDLINE
+      FROM SCHEDULE
+      WHERE SCHEDULEID = SCHEDULEIDIN;
+      UPDATE SCHEDULE
+      SET AIRCRAFTID = NEWAIRCRAFTIDIN,
+        SWAPPEDLINE  = SCHEDULEIDIN
+        --SCHEDULEREMARKS = REMARKSIDIN
+      WHERE SCHEDULEID = NEXTSCHEDULEID;
+      UPDATE SCHEDULE
+      SET DEVIATIONCODEID = DEVIATIONCODEIDIN,
+        CAUSECODEID       = CAUSECODEIDIN
+      WHERE SCHEDULEID    = SCHEDULEIDIN;
+    END;
+  END IF;
+END Update_Line_For_Tailswap@

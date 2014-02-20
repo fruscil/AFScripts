@@ -1,0 +1,37 @@
+--<ScriptOptions statementTerminator="@"/>
+
+
+CREATE PROCEDURE         "EMOC3"."SPGETWRITEUPBYID" 
+(P_CURSOR OUT EMOC_TYPES.EMOC_CURSOR,
+WRITEUPIDIN WRITEUPS.WRITEUPID%TYPE)
+
+AS
+BEGIN
+-- RETURN THE CURSOR FOR THE RECORDSET
+OPEN P_CURSOR FOR
+SELECT writeups.JCN,
+	   writeups.SYMBOLID,
+	   writeups.PACER,
+	   TO_CHAR(WRITEUPS.WRITEUPTIME, 'MM/DD/YYYY HH24:MI:SS') "WRITEUPTIME",
+	   writeups.ETIC,
+	   writeups.WUCID,
+	   writeups.DISCREPANCY,
+	   writeups.CORRECTED,
+	   TO_CHAR(WRITEUPS.CORRECTEDTIME, 'MM/DD/YYYY HH24:MI:SS') "CORRECTEDTIME",
+	   writeups.CORRECTIVEACTION
+
+FROM writeups, aircraft
+WHERE writeupid = writeupidin;
+
+
+END SPGETWRITEUPBYID;
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+@

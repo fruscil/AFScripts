@@ -1,0 +1,23 @@
+--<ScriptOptions statementTerminator="@"/>
+
+
+CREATE PROCEDURE         "EMOC3"."ADD_EMOCCONFIG" 
+as
+begin
+
+DELETE FROM EMOCCONFIG WHERE EMOCCONFIGID = 0;
+
+INSERT INTO EMOCCONFIG (EMOCCONFIGID) VALUES (0);
+
+
+end ADD_EMOCCONFIG;
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+@

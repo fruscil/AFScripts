@@ -1,0 +1,418 @@
+--<ScriptOptions statementTerminator="@"/>
+
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."ACFT_CONFIG_ID" IS
+'AIRCRAFT CONFIGURATION ID FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."AIRCONFIGDATETIME" IS
+'Date of Aircraft Configuration Needed for CAMS Screen 335'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."ASSIGNCOMDATETIME" IS
+'Date of Assignment Command Needed for CAMS Screen 335'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."ASSIGNCOMMANDLASTUPDATED" IS
+'Date Assigncommnad was last updated'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."ASSIGNSTATDATETIME" IS
+'Date of Assign Status Needed for CAMS Screen 335'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."ASSIGNSTATUSLASTUPDATED" IS
+'Date Assignmentstatus was last updated'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."ETICDATETIME" IS
+'Needed for CAMS Screen 335'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."FUELLOAD" IS
+'Quantity of fuel the plane possesses in gallons or pounds'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."LOCALCONFIGID" IS
+'This item contains the Local Configuration Id for the CAMS screen 333'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."MDSLASTUPDATED" IS
+'Date DMS was last updated'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."PHASEUNITS" IS
+'Number of phase units since last phase date. Phase units are in Hours or Days'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."POSSDATETIME" IS
+'Date of Possession Needed for CAMS Screen 335'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."REPDESIGNDATETIME" IS
+'Date of Repdesign Needed for CAMS Screen 335'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."REPDESIGNLASTUPDATED" IS
+'Date Repdesign was last updated'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFT"."SQUADRONLASTUPDATED" IS
+'Date Squadron was last updated'
+@
+
+COMMENT ON COLUMN "EMOC3"."AIRCRAFTMDS"."PHASEUNIT" IS
+'0=Hours, 1=Days. Unit for Timebetweenphases field'
+@
+
+COMMENT ON COLUMN "EMOC3"."ASSIGNMENTCODES"."ASSIGNMENTCODE" IS
+'ASSIGNMENT CODE FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."ASSIGNMENTCODES"."ASSIGNMENTCODEID" IS
+'SYSTEM ASSIGNED ID CODE'
+@
+
+COMMENT ON COLUMN "EMOC3"."ASSIGNMENTCODES"."ASSIGNMENTDESCRIPTION" IS
+'ASSIGNMENT CODE DESCRIPTION FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."CHECKLIST"."CHECKLIST" IS
+'Checklist Item'
+@
+
+COMMENT ON COLUMN "EMOC3"."CHECKLIST"."CHECKLISTID" IS
+'Checklist ID'
+@
+
+COMMENT ON COLUMN "EMOC3"."CHECKLIST"."CHECKLISTTITLE" IS
+'Checklist Title'
+@
+
+COMMENT ON COLUMN "EMOC3"."CHECKLIST"."DATEUPLOADED" IS
+'Date the checklist was orginally uploaded'
+@
+
+COMMENT ON COLUMN "EMOC3"."CHECKLIST"."MIMETYPE" IS
+'Mime type of the blob object'
+@
+
+COMMENT ON COLUMN "EMOC3"."CHECKLIST"."MOCID" IS
+'FK reference to a particular MOC'
+@
+
+COMMENT ON COLUMN "EMOC3"."EMOCCONFIG"."ARCHIVEDOM" IS
+'Day of the month for archiving data'
+@
+
+COMMENT ON COLUMN "EMOC3"."EMOCCONFIG"."ETICTIMER" IS
+'ETIC pre-timeout notification option. default = 15 minutes prior to expiration'
+@
+
+COMMENT ON COLUMN "EMOC3"."EMOCCONFIG"."SMTPSERVER" IS
+'The SMTP server that EMOC uses to send email messages'
+@
+
+COMMENT ON COLUMN "EMOC3"."EMOCCONFIG"."TBMCSEMAIL" IS
+'E-Mail address fot the TBMCS_UL Interface'
+@
+
+COMMENT ON COLUMN "EMOC3"."EMOCCONFIG"."TBMCSTIMER" IS
+'Number of minutes to wait for CAMS validation'
+@
+
+COMMENT ON COLUMN "EMOC3"."EVENTLOG"."EVENTNARRATIVE" IS
+'Additional information about the event'
+@
+
+COMMENT ON COLUMN "EMOC3"."EVENTLOG"."EVENTTYPE" IS
+'The checklist name or the name of the significant event being recorded'
+@
+
+COMMENT ON COLUMN "EMOC3"."EVENTLOG"."USERID" IS
+'Foreign key to the USERS table'
+@
+
+COMMENT ON COLUMN "EMOC3"."FLIGHTS"."LASTUPDATEBY" IS
+'FK to Users Table'
+@
+
+COMMENT ON COLUMN "EMOC3"."FLIGHTS"."WORKCENTERID" IS
+'FK to Workcenter table'
+@
+
+COMMENT ON COLUMN "EMOC3"."FUEL"."ALLOWSORTIEUPDATE" IS
+'Denotes whether this type of status will be updateable on the Flyboard'
+@
+
+COMMENT ON COLUMN "EMOC3"."FUEL"."FUELSTATUSLABEL" IS
+'Label used for this status on the Flyboard display'
+@
+
+COMMENT ON COLUMN "EMOC3"."HANGER_QUEEN_CODE"."HQCODE" IS
+'Hanger Queen Code ( PQ, C1, C2, C3, C4)'
+@
+
+COMMENT ON COLUMN "EMOC3"."HANGER_QUEEN_CODE"."HQDEFAULT" IS
+'Default Hanger Queen Code (1 = YES, 0 = NO)'
+@
+
+COMMENT ON COLUMN "EMOC3"."HANGER_QUEEN_CODE"."HQLEVEL" IS
+'Hanger Queen Code Level (Rank 1, 2, 3, 4 etc)'
+@
+
+COMMENT ON COLUMN "EMOC3"."HISTORY"."ELEMENT" IS
+'This field contains the element (database field name) that was modified by the updater'
+@
+
+COMMENT ON COLUMN "EMOC3"."HISTORY"."TRANSACTIONID" IS
+'This field contains the CAMS transaction id if the data item was sent to CAMS.'
+@
+
+COMMENT ON COLUMN "EMOC3"."INTERFACELOG"."AIRCRAFTID" IS
+'Foreign key to Aircraft table'
+@
+
+COMMENT ON COLUMN "EMOC3"."INTERFACELOG"."PARSED" IS
+'Used as a flag to denote whether or not this transaction was parsed for possible insertion into the EMOC database'
+@
+
+COMMENT ON COLUMN "EMOC3"."INTERFACELOG"."SQUADRONID" IS
+'Used to relate schedule info returned to a squadron'
+@
+
+COMMENT ON COLUMN "EMOC3"."LOCATIONS"."LASTUPDATE" IS
+'Date record last updated'
+@
+
+COMMENT ON COLUMN "EMOC3"."MAJCOMS"."COMCODE" IS
+'Command Code'
+@
+
+COMMENT ON COLUMN "EMOC3"."MAJCOMS"."MAJCOM" IS
+'MAJOR COMMAND CODE FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."MAJCOMS"."MAJCOMID" IS
+'SYSTEM ASSIGNED ID CODE'
+@
+
+COMMENT ON COLUMN "EMOC3"."MAJCOMS"."MAJCOMNARRATIVE" IS
+'MAJOR COMMAND NARRATIVE FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."PILOT"."PILOTFIRSTNAME" IS
+'Pilots first name'
+@
+
+COMMENT ON COLUMN "EMOC3"."PILOT"."PILOTMIDINIT" IS
+'Pilots middle initial'
+@
+
+COMMENT ON COLUMN "EMOC3"."PILOT"."PILOTNAME" IS
+'Pilots last name'
+@
+
+COMMENT ON COLUMN "EMOC3"."REMARKS"."REMARKS" IS
+'USED TO CONTAIN REMARKS FOR AIRCRAFT, SCHEDULE AND SCHEDULEDEVIATIONS'
+@
+
+COMMENT ON COLUMN "EMOC3"."REMARKS"."REMARKSID" IS
+'Sequential system generated ID number. (Primary key)'
+@
+
+COMMENT ON COLUMN "EMOC3"."REPORTS"."REPORTID" IS
+'New Table PK'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULE"."SCHEDULESOURCE" IS
+'source of the schedule input, from CAMS 341, 174, or Excel'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULE"."SQUADRONID" IS
+'Foreign key to Squadron table'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULE"."TYPE_EVENT" IS
+'Used to save the event when a line is loaded'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULE"."UTILCODEID" IS
+'FOREIGN KEY TO UTILIZATIONCODES TABLE'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULESTATUS"."SCHEDULEID" IS
+'Foreign key to SCHEDULE table'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULESTATUS"."SCHEDULESTATUSID" IS
+'Used to store the status of a Schedule Line'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULESTATUS"."STATUSCODEID" IS
+'Foreign key to STATUSCODE table'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULESTATUS"."STATUSTIME" IS
+'Time that the status was update'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULESTATUS"."STATUSTYPE" IS
+'Denotes whether the status is a Mission Status (0) or Fuel Status (1)'
+@
+
+COMMENT ON COLUMN "EMOC3"."SCHEDULESTATUS"."USERID" IS
+'Foreign key to USERS table'
+@
+
+COMMENT ON COLUMN "EMOC3"."SEMEDX"."SEMEDX" IS
+'Valid values [A - Z]'
+@
+
+COMMENT ON COLUMN "EMOC3"."SEMEDX"."SEMEDXDESCRIPTION" IS
+' SEM/EXD code description'
+@
+
+COMMENT ON COLUMN "EMOC3"."SQUADRONS"."CAMSINIT" IS
+'Date record was created during CAMS XML Import (CAMS Initialization)'
+@
+
+COMMENT ON COLUMN "EMOC3"."SQUADRONS"."ORGANIZATION_ID" IS
+'Organization_Id code from CAMS Initialization Import'
+@
+
+COMMENT ON COLUMN "EMOC3"."SQUADRONS"."SLC" IS
+'Station_Location_Code'
+@
+
+COMMENT ON COLUMN "EMOC3"."STATIONLOCCODES"."STALOCCODEID" IS
+'SYSTEM ASSIGNED ID CODE'
+@
+
+COMMENT ON COLUMN "EMOC3"."STATIONLOCCODES"."STALOCNARRATIVE" IS
+'AIRCRAFT STATION LOCATION CODE DESCRIPTION FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."STATIONLOCCODES"."STATIONLOC" IS
+'AIRCRAFT STATION LOCATION CODE FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."STATUSCODE"."ALLOWSORTIEUPDATE" IS
+'Denotes whether this type of status will be updateable on the Flyboard'
+@
+
+COMMENT ON COLUMN "EMOC3"."STATUSCODE"."STATUSCODELABEL" IS
+'Label used for this status on the Flyboard display'
+@
+
+COMMENT ON COLUMN "EMOC3"."STATUSCORRECTIONTRX"."APPLICATIONNOTE" IS
+'result of transaction processing by EMOC application'
+@
+
+COMMENT ON COLUMN "EMOC3"."STATUSCORRECTIONTRX"."DATEPROCESSED" IS
+'system date and time transaction processed by EMOC'
+@
+
+COMMENT ON COLUMN "EMOC3"."STATUSCORRECTIONTRX"."RECORDDATETIME" IS
+'system date and time when record was inserted'
+@
+
+COMMENT ON COLUMN "EMOC3"."USERIMAGES"."DATEUPLOADED" IS
+'Date the image was uploaded'
+@
+
+COMMENT ON COLUMN "EMOC3"."USERIMAGES"."IMAGE" IS
+'Image'
+@
+
+COMMENT ON COLUMN "EMOC3"."USERIMAGES"."IMAGEID" IS
+'Image ID'
+@
+
+COMMENT ON COLUMN "EMOC3"."USERIMAGES"."USERID" IS
+'The User ID the image belongs to'
+@
+
+COMMENT ON COLUMN "EMOC3"."USERS"."AIRCRAFTSORTORDER2" IS
+'This fields control the way aircraft are displayed on the Aircraft Status Board'
+@
+
+COMMENT ON COLUMN "EMOC3"."USERS"."AIRCRAFTSORTORDER3" IS
+'This fields control the way aircraft are displayed on the Aircraft Status Board'
+@
+
+COMMENT ON COLUMN "EMOC3"."USERS"."USERSTATUS" IS
+'Valid values is New, Approved, Cancelled'
+@
+
+COMMENT ON COLUMN "EMOC3"."UTILIZATIONCODES"."AUCNARRATIVE" IS
+'AIRCRAFT UTILIZATION CODE DESCRIPTION FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."UTILIZATIONCODES"."CAMSINIT" IS
+'DATE WHEN DATA WAS INITIALIZED BY CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."UTILIZATIONCODES"."LASTUPDATE" IS
+'Date record last updated'
+@
+
+COMMENT ON COLUMN "EMOC3"."UTILIZATIONCODES"."PROGRAMELEMENTCODE" IS
+'PROGRAM ELEMENT CODE FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."UTILIZATIONCODES"."UTILCODEID" IS
+'SYSTEM ASSIGNED ID CODE'
+@
+
+COMMENT ON COLUMN "EMOC3"."UTILIZATIONCODES"."UTILIZATIONCODE" IS
+'AIRCRAFT UTILIZATION CODE FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."WEBSERVERS"."SERVERID" IS
+'ID'
+@
+
+COMMENT ON COLUMN "EMOC3"."WEBSERVERS"."SERVERNAME" IS
+'Name of the server'
+@
+
+COMMENT ON COLUMN "EMOC3"."WEBSERVERS"."SERVERURL" IS
+'URL address of the server'
+@
+
+COMMENT ON COLUMN "EMOC3"."WHENDISCOVEREDCODES"."LASTUPDATE" IS
+'Date record last updated'
+@
+
+COMMENT ON COLUMN "EMOC3"."WINGS"."ELC" IS
+'Enterprise_Location_Code'
+@
+
+COMMENT ON COLUMN "EMOC3"."WORKCENTERS"."PORGID" IS
+'PARENT ORGANIZATION ORG-ID FrOM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."WORKCENTERS"."WORKCENTERID" IS
+'WORKCENTER ID NUMBER FROM CAMS'
+@
+
+COMMENT ON COLUMN "EMOC3"."WORKCENTERS"."WORKCENTERNAME" IS
+'WORKCENTER NAME FROM CAMS'
+@
+
+COMMENT ON TABLE "EMOC3"."CHECKLIST" IS
+'Hold the checklist specific to a given MOC'
+@
+
+COMMENT ON TABLE "EMOC3"."REMARKS" IS
+'This object contains information on Aircraft, Schedule and Scheduledeviations  remarks'
+@
+
+COMMENT ON TABLE "EMOC3"."SCHEDULESTATUS" IS
+'Unique identifier of table'
+@
+
+COMMENT ON TABLE "EMOC3"."USERIMAGES" IS
+'Contains images specific to users'
+@
