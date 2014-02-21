@@ -1,0 +1,41 @@
+/*DCW-ERROR GRAMMAR:"An unrecognizable item was found
+
+------------
+Error Header
+	Source Name: /E:/mitre/project/aflcmc/EMOC/Migration/EMOC3_Script.sql
+	Total Line Number: 2789
+	Relative Current Chunk Line Number: 2789
+	Column Number: 10
+------------
+ 
+-------------
+Error Message
+	Message: no viable alternative at character ' , 0) DEFAULT 0  NOT NULL,\n\t\t"MOCID" [null]'
+------------
+
+The following statement (from line 2784 to 2801) and was skipped" BEGIN*/
+ CREATE TABLE "EMOC3"."LANDINGCODES" (
+		"LANDINGCODEID" NUMBER(10 , 0) NOT NULL,
+		"LANDINGCODE" VARCHAR2(10) NOT NULL,
+		"LANDINGCODEDESCRIPTION" VARCHAR2(50),
+		"WRITEUPNEEDED" NUMBER(1 , 0) DEFAULT 0  NOT NULL,
+		"MOCID" null
+	)
+	PCTUSED 0
+	LOGGING
+	NOCOMPRESS
+	STORAGE (
+	INITIAL 65536
+	NEXT 1048576
+	MINEXTENTS 1
+	MAXEXTENTS 2147483645
+	PCTINCREASE 0
+	BUFFER_POOL DEFAULT)
+	TABLESPACE "EMOCMAIN"
+
+An unexpected token "null 
+ ) 
+ PCTUSED 0 
+ LOGGING 
+ NOCOMPRE" was found following "NOT NULL, 
+  "MOCID"".  Expected tokens may include:  "<space>".. SQLCODE=-104, SQLSTATE=42601, DRIVER=4.17.30
