@@ -4489,10 +4489,11 @@ CREATE UNIQUE INDEX "EMOC3"."UK_SERVERURL"
 
 @
 
+
 CREATE UNIQUE INDEX "EMOC3"."UK_WINGS_ELCUNITID"
 	ON "EMOC3"."WINGS"
 	("ELC"		ASC,
-	  "UNITID"		ASC)
+	  "UNITID"		ASC) EXCLUDE NULL KEYS
 	/*Code Fragment was removed >> INITRANS 2
 	<< Code Fragment was removed - END*/
 /*Code Fragment was removed >> LOGGING<< Code Fragment was removed - END*/

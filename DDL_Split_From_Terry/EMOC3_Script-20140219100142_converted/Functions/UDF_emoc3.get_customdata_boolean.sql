@@ -2,7 +2,7 @@
 
 
 CREATE FUNCTION         "EMOC3"."GET_CUSTOMDATA_BOOLEAN" (
-i_value_to_check in varchar2) return STRING is
+i_value_to_check in varchar2) return VARCHAR2 is
 v_dummy VARCHAR2(1);
 begin
 

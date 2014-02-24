@@ -2591,9 +2591,9 @@ The following statement (from line 2784 to 2801) and was skipped" BEGIN*/
 		"LANDINGCODE" VARCHAR2(10) NOT NULL,
 		"LANDINGCODEDESCRIPTION" VARCHAR2(50),
 		"WRITEUPNEEDED" NUMBER(1 , 0) DEFAULT 0  NOT NULL,
-		"MOCID" null
-	)
-	PCTUSED 0
+		"MOCID" NUMBER(10,0) DEFAULT 0  NOT NULL 
+	) IN  /* pagesizemin=4K */ "EMOCMAIN"@
+	/*PCTUSED 0
 	LOGGING
 	NOCOMPRESS
 	STORAGE (
@@ -2603,7 +2603,8 @@ The following statement (from line 2784 to 2801) and was skipped" BEGIN*/
 	MAXEXTENTS 2147483645
 	PCTINCREASE 0
 	BUFFER_POOL DEFAULT)
-	TABLESPACE "EMOCMAIN"@
+	TABLESPACE "EMOCMAIN"@*/
+	
 CREATE TABLE  /* pagesizemin=4K rowlen=433 */ "EMOC3"."LINKS" 
 /* *** DCW Evaluation Issue "DDL_TABLE_STORAGE_CLAUSE".Corresponding line no in the source file:2817 *** */
 
